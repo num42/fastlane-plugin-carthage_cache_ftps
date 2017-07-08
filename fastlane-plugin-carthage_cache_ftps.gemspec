@@ -1,4 +1,5 @@
 # coding: utf-8
+
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'fastlane/plugin/carthage_cache_ftps/version'
@@ -6,10 +7,10 @@ require 'fastlane/plugin/carthage_cache_ftps/version'
 Gem::Specification.new do |spec|
   spec.name          = 'fastlane-plugin-carthage_cache_ftps'
   spec.version       = Fastlane::CarthageCacheFtps::VERSION
-  spec.author        = %q{Wolfgang Lutz}
-  spec.email         = %q{wlut@num42.de}
+  spec.author        = 'Wolfgang Lutz'
+  spec.email         = 'wlut@num42.de'
 
-  spec.summary       = %q{Allows to publish or install the carthage builds via ftps to avoid recompilation}
+  spec.summary       = 'Allows to publish or install the carthage builds via ftps to avoid recompilation'
   # spec.homepage      = "https://github.com/<GITHUB_USERNAME>/fastlane-plugin-carthage_cache_ftps"
   spec.license       = "MIT"
 

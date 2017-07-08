@@ -5,16 +5,16 @@ module Fastlane
     class CarthageCacheAction < Action
       def self.run(params)
         FastlaneCore::PrintTable.print_values(config: params, title: "Summary for Carthage Cache")
-        
+
         application = CarthageCache::Application.new(".", true, {})
 
         command = params.values[:carthage_cache_command]
-        
+
         case command.to_sym
         when :install
-            exit 1 unless application.install_archive
+          exit 1 unless application.install_archive
         when :publish
-            exit 1 unless application.create_archive
+          exit 1 unless application.create_archive
         end
       end
 
@@ -45,9 +45,8 @@ module Fastlane
                              default_value: "install",
                               short_option: "c",
                               verify_block: proc do |value|
-                                         UI.user_error!("Unknown carthage cache command. Allowed: install, publish") unless ["install", "publish"].include?(value)
-                                         end
-                                       )
+                                              UI.user_error!("Unknown carthage cache command. Allowed: install, publish") unless ["install", "publish"].include?(value)
+                                            end)
         ]
       end
 

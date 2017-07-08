@@ -5,7 +5,7 @@ module Fastlane
     class CarthageCacheFtpsAction < Action
       def self.run(params)
         FastlaneCore::PrintTable.print_values(config: params, title: "Summary for Carthage Cache FTPS")
-        
+
         host = params.values[:carthage_cache_ftps_host]
         remote_subfolder = params.values[:carthage_cache_ftps_subfolder]
         username = params.values[:carthage_cache_ftps_username]
@@ -20,19 +20,19 @@ module Fastlane
                     access_key_id: "bla"
                     }
                   }
-        
+
         local_path = params.values[:carthage_cache_ftps_local_path]
         application = CarthageCache::Application.new(local_path, true, config, repository: FTPRepository)
-        
+
         puts application.inspect
-        
+
         command = params.values[:carthage_cache_command]
-        
+
         case command.to_sym
         when :install
-            exit 1 unless application.install_archive
+          exit 1 unless application.install_archive
         when :publish
-            exit 1 unless application.create_archive
+          exit 1 unless application.create_archive
         end
       end
 
@@ -84,9 +84,8 @@ module Fastlane
                              default_value: "install",
                               short_option: "c",
                               verify_block: proc do |value|
-                                         UI.user_error!("Unknown carthage cache command. Allowed: install, publish") unless ["install", "publish"].include?(value)
-                                         end
-                                       ),
+                                              UI.user_error!("Unknown carthage cache command. Allowed: install, publish") unless ["install", "publish"].include?(value)
+                                            end),
           FastlaneCore::ConfigItem.new(key: :carthage_cache_ftps_subfolder,
                                   env_name: "CARTHAGE_CACHE_FTPS_SUBFOLDER",
                                description: "The subfolder to use for carthage cache",
@@ -100,8 +99,7 @@ module Fastlane
                                   optional: true,
                                       type: String,
                              default_value: ".",
-                              short_option: "l"
-                              )
+                              short_option: "l")
         ]
       end
 

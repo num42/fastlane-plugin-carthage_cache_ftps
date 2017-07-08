@@ -16,7 +16,7 @@ class FTPRepository
   def login
     # Connect to a host using explicit FTPS and do not verify the host's cert
     ftps = DoubleBagFTPS.new
-    ftps.ssl_context = DoubleBagFTPS.create_ssl_context(:verify_mode => OpenSSL::SSL::VERIFY_NONE)
+    ftps.ssl_context = DoubleBagFTPS.create_ssl_context(verify_mode: OpenSSL::SSL::VERIFY_NONE)
     ftps.connect(@ftps_host)
     ftps.login(@ftps_username, @ftps_password)
     ftps
@@ -42,5 +42,4 @@ class FTPRepository
     ftps.putbinaryfile(archive_path, "#{@ftps_remote_path}/#{archive_filename}")
     ftps.close
   end
-
 end
