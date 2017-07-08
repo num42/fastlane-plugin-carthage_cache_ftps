@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = 'wlut@num42.de'
 
   spec.summary       = 'Allows to publish or install the carthage builds via ftps to avoid recompilation'
-  # spec.homepage      = "https://github.com/<GITHUB_USERNAME>/fastlane-plugin-carthage_cache_ftps"
+  # spec.homepage      = "https://github.com/<GITHUB_USERNAME>/"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)
