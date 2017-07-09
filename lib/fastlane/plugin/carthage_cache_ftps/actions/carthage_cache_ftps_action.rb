@@ -6,10 +6,10 @@ module Fastlane
       def self.run(params)
         FastlaneCore::PrintTable.print_values(config: params, title: "Summary for Carthage Cache FTPS")
 
-        host = params.values[:carthage_cache_ftps_host]
-        remote_subfolder = params.values[:carthage_cache_ftps_subfolder]
-        username = params.values[:carthage_cache_ftps_username]
-        password = params.values[:carthage_cache_ftps_password] || PasswordHelper.new.password(host, username)
+        host = params.values[:host]
+        remote_subfolder = params.values[:subfolder]
+        username = params.values[:username]
+        password = params.values[:password] || PasswordHelper.new.password(host, username)
 
         config = {
                   bucket_name: remote_subfolder,
@@ -21,12 +21,12 @@ module Fastlane
                     }
                   }
 
-        local_path = params.values[:carthage_cache_ftps_local_path]
+        local_path = params.values[:local_path]
         application = CarthageCache::Application.new(local_path, true, config, repository: FTPRepository)
 
         puts application.inspect
 
-        command = params.values[:carthage_cache_command]
+        command = params.values[:command]
 
         case command.to_sym
         when :install
@@ -49,34 +49,33 @@ module Fastlane
       end
 
       def self.details
-        # Optional:
         "This plugin extends the carthage_cache_gem with ftps functionality, to be able to cache the built carthage libraries remotely on an ftp server."
       end
 
       def self.available_options
         [
-          FastlaneCore::ConfigItem.new(key: :carthage_cache_ftps_host,
+          FastlaneCore::ConfigItem.new(key: :host,
                                   env_name: "CARTHAGE_CACHE_FTPS_HOST",
                                description: "The ftps host to use for carthage cache",
                                   optional: false,
                                       type: String,
                              default_value: "127.0.0.1",
                               short_option: "h"),
-          FastlaneCore::ConfigItem.new(key: :carthage_cache_ftps_username,
+          FastlaneCore::ConfigItem.new(key: :username,
                                   env_name: "CARTHAGE_CACHE_FTPS_USERNAME",
                                description: "The ftps username to use for carthage cache",
                                   optional: false,
                                       type: String,
                              default_value: "anonymous",
                               short_option: "u"),
-          FastlaneCore::ConfigItem.new(key: :carthage_cache_ftps_password,
+          FastlaneCore::ConfigItem.new(key: :password,
                                   env_name: "CARTHAGE_CACHE_FTPS_PASSWORD",
                                description: "The ftps password to use for carthage cache. If not given, keychain is used",
                                   optional: true,
                                       type: String,
                                  sensitive: true,
                               short_option: "p"),
-          FastlaneCore::ConfigItem.new(key: :carthage_cache_command,
+          FastlaneCore::ConfigItem.new(key: :command,
                                   env_name: "CARTHAGE_CACHE_COMMAND",
                                description: "The carthage cache command to use. Allowed values: publish, install",
                                   optional: false,
@@ -86,14 +85,14 @@ module Fastlane
                               verify_block: proc do |value|
                                               UI.user_error!("Unknown carthage cache command. Allowed: install, publish") unless ["install", "publish"].include?(value)
                                             end),
-          FastlaneCore::ConfigItem.new(key: :carthage_cache_ftps_subfolder,
+          FastlaneCore::ConfigItem.new(key: :subfolder,
                                   env_name: "CARTHAGE_CACHE_FTPS_SUBFOLDER",
                                description: "The subfolder to use for carthage cache",
                                   optional: true,
                                       type: String,
                              default_value: "carthage_cache",
                               short_option: "f"),
-          FastlaneCore::ConfigItem.new(key: :carthage_cache_ftps_local_path,
+          FastlaneCore::ConfigItem.new(key: :local_path,
                                   env_name: "CARTHAGE_CACHE_FTPS_LOCAL_PATH",
                                description: "The path to the folder containing the 'Carthage' folder",
                                   optional: true,

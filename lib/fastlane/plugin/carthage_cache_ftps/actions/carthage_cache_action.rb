@@ -8,7 +8,7 @@ module Fastlane
 
         application = CarthageCache::Application.new(".", true, {})
 
-        command = params.values[:carthage_cache_command]
+        command = params.values[:command]
 
         case command.to_sym
         when :install
@@ -31,13 +31,12 @@ module Fastlane
       end
 
       def self.details
-        # Optional:
         "This action uses the carthage_cache_gem to cache the built carthage libraries remotely on AWS."
       end
 
       def self.available_options
         [
-          FastlaneCore::ConfigItem.new(key: :carthage_cache_command,
+          FastlaneCore::ConfigItem.new(key: :command,
                                   env_name: "CARTHAGE_CACHE_COMMAND",
                                description: "The carthage cache command to use. Allowed values: publish, install",
                                   optional: false,
