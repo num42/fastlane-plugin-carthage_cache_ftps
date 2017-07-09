@@ -12,15 +12,76 @@ fastlane add_plugin carthage_cache_ftps
 
 ## About carthage_cache_ftps
 
-Allows to publish or install the carthage builds via ftps to avoid recompilation
+Allows to publish or install the carthage builds via FTPS or AWS to avoid recompilation.
 
-**Note to author:** Add a more detailed description about this plugin here. If your plugin contains multiple actions, make sure to mention them here.
 
-## Example
+### AWS
 
-Check out the [example `Fastfile`](fastlane/Fastfile) to see how to use this plugin. Try it by cloning the repo, running `fastlane install_plugins` and `bundle exec fastlane test`.
+First, run
 
-**Note to author:** Please set up a sample project to make it easy for users to explore what your plugin does. Provide everything that is necessary to try out the plugin in this project (including a sample Xcode/Android project if necessary)
+```bash
+carthage_cache config
+```
+
+to create the `.carthage_cache.yml` file.
+
+Then, call the plugin from the Fastfile using
+
+```ruby
+carthage_cache (
+  command: "install" #This is the default and can be omitted
+)
+```
+
+to install from cache and use
+
+```ruby
+carthage_cache (
+  command: "publish"
+)
+```
+
+to push the current state to the remote.
+
+Run
+
+```bash
+bundle exec fastlane actions carthage_cache
+```
+
+for more information.
+
+### FTPS
+
+Call the plugin from the Fastfile using
+
+```ruby
+carthage_cache_ftps (
+  host: "ftp.yourdomain.de",
+  user: "username",
+  command: "install" #This is the default and can be omitted
+)
+```
+
+to install from cache and use
+
+```ruby
+carthage_cache (
+  host: "ftp.yourdomain.de",
+  user: "username",
+  command: "publish"
+)
+```
+
+to push the current state to the remote.
+
+Run
+
+```bash
+bundle exec fastlane actions carthage_cache_ftps
+```
+
+for more information and parameters.
 
 ## Run tests for this plugin
 
