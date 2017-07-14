@@ -21,8 +21,6 @@ module Fastlane
                     }
                   }
 
-        puts application.inspect
-
         project_directory = params.values[:project_directory]
         application = CarthageCache::Application.new(project_directory, true, config, repository: FTPRepository)
         
