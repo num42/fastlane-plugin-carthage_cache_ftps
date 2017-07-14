@@ -21,11 +21,11 @@ module Fastlane
                     }
                   }
 
-        local_path = params.values[:local_path]
-        application = CarthageCache::Application.new(local_path, true, config, repository: FTPRepository)
-
         puts application.inspect
 
+        project_directory = params.values[:project_directory]
+        application = CarthageCache::Application.new(project_directory, true, config, repository: FTPRepository)
+        
         command = params.values[:command]
 
         case command.to_sym
@@ -92,9 +92,9 @@ module Fastlane
                                       type: String,
                              default_value: "carthage_cache",
                               short_option: "f"),
-          FastlaneCore::ConfigItem.new(key: :local_path,
-                                  env_name: "CARTHAGE_CACHE_FTPS_LOCAL_PATH",
-                               description: "The path to the folder containing the 'Carthage' folder",
+          FastlaneCore::ConfigItem.new(key: :project_directory,
+                                  env_name: "FL_CARTHAGE_PROJECT_DIRECTORY",
+                               description: "Define the directory containing the Carthage project",
                                   optional: true,
                                       type: String,
                              default_value: ".",
