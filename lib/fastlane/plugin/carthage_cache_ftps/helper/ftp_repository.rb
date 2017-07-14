@@ -24,9 +24,10 @@ class FTPRepository
 
   def archive_exist?(archive_filename)
     ftps = login
+    ftps.chdir(@ftps_remote_path) || return false
     files = ftps.list
     ftps.close
-    return !files.select { |f| f.include? "#{@ftps_remote_path}/#{archive_filename}" }.empty?
+    return !files.select { |f| f.include? "#{archive_filename}" }.empty?
   end
 
   def download(archive_filename, destination_path)
