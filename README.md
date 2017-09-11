@@ -67,6 +67,13 @@ For any other issues and feedback about this plugin, please submit it to this re
 
 If you have trouble using plugins, check out the [Plugins Troubleshooting](https://docs.fastlane.tools/plugins/plugins-troubleshooting/) guide.
 
+### Keychain issues
+```
+SecKeychainAddInternetPassword <NULL>: The specified item already exists in the keychain.
+```
+If you have to login every time and see an error like this, got to Keychain and delete the carthage cache entry.
+
+
 ## Using _fastlane_ Plugins
 
 For more information about how the `fastlane` plugin system works, check out the [Plugins documentation](https://docs.fastlane.tools/plugins/create-plugin/).
