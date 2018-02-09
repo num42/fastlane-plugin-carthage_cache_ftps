@@ -1,6 +1,6 @@
-class FTPRepository
-  require 'double_bag_ftps'
+require 'net/ftp'
 
+class FTPRepository
   attr_reader :ftps_host
   attr_reader :ftps_remote_path
   attr_reader :ftps_username
@@ -13,35 +13,35 @@ class FTPRepository
     @ftps_password = config[:secret_access_key]
   end
 
-  def login
-    # Connect to a host using explicit FTPS and do not verify the host's cert
-    ftps = DoubleBagFTPS.new
-    ftps.ssl_context = DoubleBagFTPS.create_ssl_context(verify_mode: OpenSSL::SSL::VERIFY_NONE)
-    ftps.connect(@ftps_host)
-    ftps.login(@ftps_username, @ftps_password)
-    ftps
+  def connection
+    Net::FTP.new(@ftps_host, {
+      ssl:      { verify_mode: OpenSSL::SSL::VERIFY_NONE },
+      passive:  true,
+      username: @ftps_username,
+      password: @ftps_password
+    })
   end
 
   def archive_exist?(archive_filename)
-    ftps = login
+    ftps = connection
     begin
-      ftps.chdir(@ftps_remote_path) 
-    rescue
+      ftps.chdir(@ftps_remote_path)
+    rescue StandardError
       return false
     end
     files = ftps.list
     ftps.close
-    return !files.select { |f| f.include? "#{archive_filename}" }.empty?
+    return !files.select { |f| f.include? archive_filename.to_s }.empty?
   end
 
   def download(archive_filename, destination_path)
-    ftps = login
+    ftps = connection
     ftps.getbinaryfile("#{@ftps_remote_path}/#{archive_filename}", destination_path)
     ftps.close
   end
 
   def upload(archive_filename, archive_path)
-    ftps = login
+    ftps = connection
     files = ftps.list
     ftps.mkdir(@ftps_remote_path) if files.select { |f| f.include? @ftps_remote_path }.empty?
     ftps.putbinaryfile(archive_path, "#{@ftps_remote_path}/#{archive_filename}")

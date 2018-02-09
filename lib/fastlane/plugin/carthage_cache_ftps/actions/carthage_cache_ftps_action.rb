@@ -23,7 +23,7 @@ module Fastlane
 
         project_directory = params.values[:project_directory]
         application = CarthageCache::Application.new(project_directory, true, config, repository: FTPRepository)
-        
+
         command = params.values[:command]
 
         case command.to_sym
