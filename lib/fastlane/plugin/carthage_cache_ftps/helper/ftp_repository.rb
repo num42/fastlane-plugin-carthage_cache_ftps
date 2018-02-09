@@ -31,7 +31,13 @@ class FTPRepository
     end
     files = ftps.list
     ftps.close
-    return !files.select { |f| f.include? archive_filename.to_s }.empty?
+
+    if files.select { |f| f.include? archive_filename.to_s }.empty?
+      return false
+    else
+      puts "Remote File already exists"
+      return true
+    end
   end
 
   def download(archive_filename, destination_path)
@@ -43,8 +49,18 @@ class FTPRepository
   def upload(archive_filename, archive_path)
     ftps = connection
     files = ftps.list
-    ftps.mkdir(@ftps_remote_path) if files.select { |f| f.include? @ftps_remote_path }.empty?
-    ftps.putbinaryfile(archive_path, "#{@ftps_remote_path}/#{archive_filename}")
+
+    if files.select { |f| f.include? @ftps_remote_path }.empty?
+      ftps.mkdir(@ftps_remote_path)
+    end
+
+    remote_path = "#{@ftps_remote_path}/#{archive_filename}"
+    if files.select { |f| f.include? remote_path }.empty?
+      ftps.putbinaryfile(archive_path, remote_path)
+    else
+      puts "File #{remote_path} already exists"
+    end
+
     ftps.close
   end
 end
